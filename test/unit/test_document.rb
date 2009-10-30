@@ -197,5 +197,11 @@ class DocumentTest < Test::Unit::TestCase
         (@document.new('_id' => 1) == @another_document.new('_id' => 1)).should be(false)
       end
     end
+    
+    context "humanized attribute names" do
+      should "have default humanized name if no locale present" do
+        @document.humanized_name(:name).should == "Name"
+      end
+    end
   end # instance of a document
 end # DocumentTest
