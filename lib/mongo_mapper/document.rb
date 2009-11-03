@@ -11,6 +11,7 @@ module MongoMapper
         include Dirty
         include RailsCompatibility::Document
         extend Validations::Macros
+        extend I18n
         extend ClassMethods
         extend Finders
 
