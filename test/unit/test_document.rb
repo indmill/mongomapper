@@ -72,6 +72,33 @@ class DocumentTest < Test::Unit::TestCase
       @document.collection.should be_instance_of(Mongo::Collection)
       @document.collection.name.should == 'foobar'
     end
+
+    require 'ruby-debug'
+    context "humanized attribute names" do
+      should "have default humanized name if no locale present" do
+        @document.human_attribute_name(:name).should == "Name"
+      end
+      should "have custom default name if no locale present" do
+        @document.human_attribute_name(:name, :default => "Default name").should == "Default name"
+      end
+      context "with locale settings" do
+        setup do
+          %w{en fr}.each do |locale|
+            ::I18n.load_path << File.expand_path(File.dirname(__FILE__) + "/../locale/#{locale}.yml")
+            ::I18n.reload!
+          end
+        end
+        
+        should "have default locale name" do
+          @document.human_attribute_name(:name).should == "English name"
+        end
+        
+        should "have specified locale name" do
+          ::I18n.locale = :fr
+          @document.human_attribute_name(:name).should == "Nom français"
+        end
+      end
+    end
   end # Document class
   
   context "Documents that inherit from other documents" do
@@ -196,12 +223,6 @@ class DocumentTest < Test::Unit::TestCase
 
         (@document.new('_id' => 1) == @another_document.new('_id' => 1)).should be(false)
       end
-    end
-    
-    context "humanized attribute names" do
-      should "have default humanized name if no locale present" do
-        @document.humanized_name(:name).should == "Name"
-      end
-    end
+    end    
   end # instance of a document
 end # DocumentTest
