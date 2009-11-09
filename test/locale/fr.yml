@@ -1,6 +1,6 @@
 fr:
   
   document:
-    attributes:
+    fields:
       class:
         name: Nom français

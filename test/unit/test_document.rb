@@ -73,13 +73,12 @@ class DocumentTest < Test::Unit::TestCase
       @document.collection.name.should == 'foobar'
     end
 
-    require 'ruby-debug'
-    context "humanized attribute names" do
+    context "humanized field names" do
       should "have default humanized name if no locale present" do
-        @document.human_attribute_name(:name).should == "Name"
+        @document.human_field_name(:name).should == "Name"
       end
       should "have custom default name if no locale present" do
-        @document.human_attribute_name(:name, :default => "Default name").should == "Default name"
+        @document.human_field_name(:name, :default => "Default name").should == "Default name"
       end
       context "with locale settings" do
         setup do
@@ -90,12 +89,12 @@ class DocumentTest < Test::Unit::TestCase
         end
         
         should "have default locale name" do
-          @document.human_attribute_name(:name).should == "English name"
+          @document.human_field_name(:name).should == "English name"
         end
         
         should "have specified locale name" do
           ::I18n.locale = :fr
-          @document.human_attribute_name(:name).should == "Nom français"
+          @document.human_field_name(:name).should == "Nom français"
         end
       end
     end

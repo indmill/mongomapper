@@ -1,6 +1,6 @@
 en:
   
   document:
-    attributes:
+    fields:
       class:
         name: "English name"
