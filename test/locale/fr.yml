@@ -2,5 +2,5 @@ fr:
   
   document:
     fields:
-      class:
+      localized_document:
         name: Nom français

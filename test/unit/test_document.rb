@@ -74,11 +74,19 @@ class DocumentTest < Test::Unit::TestCase
     end
 
     context "humanized field names" do
+      setup do
+        class ::LocalizedDocument
+          include MongoMapper::Document
+          set_collection_name 'test'
+        end
+        @localized_document = LocalizedDocument
+        @localized_document.collection.remove
+      end
       should "have default humanized name if no locale present" do
-        @document.human_field_name(:name).should == "Name"
+        @localized_document.human_field_name(:name).should == "Name"
       end
       should "have custom default name if no locale present" do
-        @document.human_field_name(:name, :default => "Default name").should == "Default name"
+        @localized_document.human_field_name(:name, :default => "Default name").should == "Default name"
       end
       context "with locale settings" do
         setup do
@@ -89,12 +97,12 @@ class DocumentTest < Test::Unit::TestCase
         end
         
         should "have default locale name" do
-          @document.human_field_name(:name).should == "English name"
+          @localized_document.human_field_name(:name).should == "English name"
         end
         
         should "have specified locale name" do
           ::I18n.locale = :fr
-          @document.human_field_name(:name).should == "Nom français"
+          @localized_document.human_field_name(:name).should == "Nom français"
         end
       end
     end
